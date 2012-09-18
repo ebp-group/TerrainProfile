@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!--
+ Copyright 2010 Google Inc. 
+ Licensed under the Apache License, Version 2.0: 
+ http://www.apache.org/licenses/LICENSE-2.0 
+ Originalcode: http://gmaps-samples-v3.googlecode.com/svn/trunk/elevation/elevation-profile.html
+
+ Adapted 2010 by Ernst Basler + Partner AG. 
+ Changes done under under the Apache License, Version 2.0: 
+ http://www.apache.org/licenses/LICENSE-2.0 
+ -->
+<html>
+<head>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+<title>Höhenprofile auf Basis von Google Maps, entwickelt von Ernst Basler + Partner AG</title>
+<script type="text/javascript" src="http://www.google.com/jsapi"></script>
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+{{ 'URI.js'|include_js }}
+{{ 'tp.js'|include_js }}
+{{ 'tp.css'|include_css }}
+<script type="text/javascript">
+  // GA Analytics
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-618318-11']);
+  _gaq.push(['_trackPageview']);
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</head>
+<body>
+  <h2 style="text-align:center;font-size:25px">Automatische Höhenprofilberechnung Version 2.0 (beta)&nbsp; &nbsp; &nbsp;<a href="http://www.ebp.ch"><img style=" border-style:none;" src="{{ 'EBP.png'|imgsrc }}"/></a></h2>
+  <div style="font-size:small;"><b>Anleitung:</b> Klicken Sie auf den Knopf "Neu starten". Sie können eine Route erstellen, in dem Sie auf die Karte klicken oder eine Adresse der Knotenpunkte eingibst. Das Höhenprofil wird automatisch aktualisiert. Tip: Sie können die Knotenpunkte auch verschieben. Weitere Infos finden Sie in unserem <a href="http://geo.ebp.ch/2010/09/15/gelandeprofile-berechnen-mit-google-maps">Blog</a>.</div>
+  <div style="background-color: #C3D9FF; width:100%; margin-top:10px;">
+  <table>
+  <tr>
+     <td style="text-align: left">
+       <input type="button" value="Neu starten (alle Knotenpunkte löschen)" onclick="tp.reset()"/>
+     </td>
+	<td style="text-align: center">Adresse des nächsten Knotenpunktes: <input type="text" id="address" size="35" onkeypress="return tp.addressKeyHandler(event)"/></td>
+	<td style="text-align: right">
+       Art der Route:
+       <select id="mode" onchange="tp.updateElevation()">
+		 
+         <option value="direct">Luftlinie</option>
+         <option value="driving">Autoroute</option>
+         <option value="bicycling">Velo</option> 
+         <option value="walking">Fussweg</option>
+       </select>
+     </td>
+     <td id="permalink"> 
+       <a href="javascript:tp.createPermalink();">Erstelle Permalink</a>
+     </td>
+  </tr>
+  </table>
+  </div>
+  <div id="loading" style="display:none;text-align:center;background-color:lightcoral; width:100%; border-top:10px;">
+    Einen Moment, bitte. Die Ergebnisse werden geladen.
+  </div>
+  <div id="map_canvas" style="border: 4px solid #C3D9FF; width:99%; height:500px"></div>
+  <div style="border: 4px solid #C3D9FF;width:99%; ">
+    <div id="export_div">
+     <a id="export_link" href="#" target="_blank" >Export als CSV text (öffnet ein neues Fenster). <span style="font-size:11px;">funktioniert momentan nicht im Internet Explorer</span></a>
+    </div>
+    <div id="chart_div" style="width:98%; height:300px" onmouseout="tp.clearMouseMarker()">
+    </div>
+  </div>
+  <div id="Hinweise" style="margin-top:10px;font-size:11px;">Diese Website beruht auf einen <a href="http://gmaps-samples-v3.googlecode.com/svn/trunk/elevation/elevation-profile.html">Google Developer Sample</a> und wurde von <a href="http://www.ebp.ch">Ernst Basler + Partner AG</a> angepasst. Die Daten stammen ausschliesslich von Google und liegen unter Ihrem Copyright. Diese HTML-Datei kann abgespeichert werden und lokal genutzt und verändert werden (siehe Hinweise zur Lizenz im Quellcode). Fragen beantworten wir gerne per <a href="mailto:stephan.heuel@ebp.ch">E-Mail</a>.
+  </div>
+</body>
+</html>
+

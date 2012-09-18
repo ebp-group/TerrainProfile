@@ -1,0 +1,16 @@
+body {
+  font-family: sans-serif
+}
+
+#map_canvas {
+  margin: 5px 0px 5px 0px;
+}
+
+heading {
+    text-align:center;
+    font-size:25px;
+}
+
+help {
+  font-size:small;
+}
