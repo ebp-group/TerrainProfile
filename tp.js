@@ -1,4 +1,13 @@
 // -*- coding: utf-8; -*-
+var sPath = window.location.pathname;
+var sPage = sPath.substring(sPath.lastIndexOf('/') + 1);
+var lang = "de";
+if(sPage == "index_de.html") lang = "de";
+if(sPage == "index_fr.html") lang = "fr";
+if(sPage == "index_en.html") lang = "en";
+
+i18n.init({lng:lang, resStore: resources()});
+
 
 TerrainProfile = function() { }
 TerrainProfile.prototype.map = null;
@@ -13,6 +22,20 @@ TerrainProfile.prototype.markers = [];
 TerrainProfile.prototype.polyline = null;
 TerrainProfile.prototype.elevations = null;
 TerrainProfile.prototype.SAMPLES = 512;
+TerrainProfile.prototype.markerIcons = new Array("http://www.google.com/mapfiles/markerA.png",
+                                        "http://www.google.com/mapfiles/markerB.png",
+                                        "http://www.google.com/mapfiles/markerC.png",
+                                        "http://www.google.com/mapfiles/markerD.png",
+                                        "http://www.google.com/mapfiles/markerE.png",
+                                        "http://www.google.com/mapfiles/markerF.png",
+                                        "http://www.google.com/mapfiles/markerG.png",
+                                        "http://www.google.com/mapfiles/markerH.png",
+                                        "http://www.google.com/mapfiles/markerI.png",
+                                        "http://www.google.com/mapfiles/markerJ.png",
+                                        "http://www.google.com/mapfiles/markerK.png",
+                                        "http://www.google.com/mapfiles/markerL.png",
+                                        "http://www.google.com/mapfiles/markerM.png");
+
 
 TerrainProfile.prototype.default_path = {
     // Zürich Bern
@@ -111,7 +134,7 @@ TerrainProfile.prototype.plotElevation = function(results) {
   for (var i = 0; i < results.length; i++) {
     x = Math.round(1000*totalLength * i/self.SAMPLES)/1000;
     y = Math.round(self.elevations[i].elevation*10)/10;
-    data.addRow([x,y, y + " Meter Höhe bei Kilometer " + Math.round(x*100)/100]);
+    data.addRow([x,y, y + i18n.t(" Meter Höhe bei Kilometer ") + Math.round(x*100)/100]);
     csv_content += x + ", " + y + ", " + path[i].lat() + ", " + path[i].lng() + "\n";
   }
   
@@ -122,13 +145,31 @@ TerrainProfile.prototype.plotElevation = function(results) {
   self.chart.draw(data, {
     height: 300,
     legend: 'none',
-    titleY: 'Höhe (m)',
-    titleX: 'Distanz (km), Total: ' + totalLength + ' [km]',
+    titleY: i18n.t('Höhe (m)'),
+    titleX: i18n.t('Distanz (km), Total')+ " " + totalLength + ' [km]',
     pointSize: 2,
     focusBorderColor: '#00ff00'
   });
-  uriContent = "data:text/plain," + encodeURIComponent(csv_content);
-  document.getElementById('export_link').href = uriContent;
+  uriContent = "data:application/octet-stream," + encodeURIComponent(csv_content);  
+  document.getElementById('export_link').onclick = function() {
+    myWindow=window.open('','','width=700,height=400');
+    myWindow.document.write('<div id="csvPresentator" style="display:none;"><textarea id="txtCSV" cols="80" rows="20" ></textarea></div>');
+    myWindow.focus()
+    myWindow.document.getElementById("txtCSV").value = csv_content;
+    myWindow.document.getElementById("csvPresentator").style.display = "block";
+    if(navigator.appName != "Microsoft Internet Explorer")
+        myWindow.document.getElementById("txtCSV").select();
+    else {
+        var range = myWindow.document.getElementById('txtCSV').createTextRange();
+        range.collapse(true);
+        range.moveStart('character', 0);
+        range.moveEnd('character', csv_content.length);
+        range.select();
+    }
+    
+    return false;
+  }
+  //document.getElementById('export_link').href = uriContent;
   
 }
 
@@ -159,9 +200,9 @@ TerrainProfile.prototype.addAddress = function() {
 	self.map.fitBounds(results[0].geometry.viewport);
       }
     } else if (status == google.maps.GeocoderStatus.ZERO_RESULTS) {
-      alert("Addresse nicht gefunden.");
+      alert(i18n.t("Addresse nicht gefunden."));
     } else {
-      alert("Addressensuche gescheitert.");
+      alert(i18n.t("Addressensuche gescheitert."));
     }
   })
 }
@@ -173,6 +214,8 @@ TerrainProfile.prototype.addMarker = function(latlng, doQuery, showOnMap) {
     
     var marker = new google.maps.Marker({
       position: latlng,
+      title: ""+(self.markers.length+1),
+      icon:self.markerIcons[self.markers.length],
       draggable: true
     })
     
@@ -195,7 +238,7 @@ TerrainProfile.prototype.addMarker = function(latlng, doQuery, showOnMap) {
       document.getElementById('address').disabled = true;
     }
   } else {
-    alert("Es können nicht mehr als 10 Punkte eingegeben werden.");
+    alert(i18n.t("Es können nicht mehr als 10 Punkte eingegeben werden"));
   }
 }
 
@@ -226,8 +269,8 @@ TerrainProfile.prototype.updateElevation = function() {
     } else {
       var latlngs = [];
       for (var i in self.markers) {
-	self.markers[i].setMap(self.map);
-	latlngs.push(self.markers[i].getPosition())
+        self.markers[i].setMap(self.map);
+        latlngs.push(self.markers[i].getPosition())
       }
       self.elevationService.getElevationAlongPath({ 
 	path: latlngs,
@@ -276,9 +319,9 @@ TerrainProfile.prototype.calcRoute = function(travelMode) {
       self.directionsDisplay.setMap(self.map);
       self.directionsDisplay.setDirections(response);
     } else if (status == google.maps.DirectionsStatus.ZERO_RESULTS) {
-      alert("Could not find a route between these points");
+      alert(i18n.t("Could not find a route between these points"));
     } else {
-      alert("Directions request failed");
+      alert(i18n.t("Directions request failed"));
     }
   });
 }
@@ -351,7 +394,8 @@ TerrainProfile.prototype.initialize = function() {
   var self = this;
   self.directionsDisplay = new google.maps.DirectionsRenderer({draggable: true, 
 							       preserveViewport: true,
-							       suppressBicyclingLayer: true});
+							       suppressBicyclingLayer: true,
+                                   });
   var myLatlng = new google.maps.LatLng(47.374, 8.530);
   var myOptions = {
     zoom: 1,

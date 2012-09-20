@@ -1,0 +1,1 @@
+C:\Python27\Scripts\pybabel-script.py extract . -F config.ini -o i18n\test.pot

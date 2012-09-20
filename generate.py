@@ -2,8 +2,12 @@
 
 import codecs
 import jinja2
+from jinja2.ext import i18n
 import base64
 import os
+import babel
+from babel.support import Translations
+import gettext
 
 class GeneratorStandaloneHTML(object):
     """This is a simple class which generates a standalone HTML from a
@@ -46,13 +50,29 @@ class GeneratorStandaloneHTML(object):
 
     def start(self,in_template, out_html):
         template = self.jinja2_env.get_template(in_template)
-
-        f = codecs.open(out_html, "w", encoding=self.encoding)
+        gettext.install('messages', '.\i18n')
+        translation = gettext.translation("messages", ".\i18n", languages=['fr'])
+        translation.install()
+        self.jinja2_env.install_gettext_translations(translation)
+        f = codecs.open(out_html+"fr.html", "w", encoding=self.encoding)
         f.write(template.render({ "standalone" : self.standalone}))
+        
+        translation = gettext.translation("messages", ".\i18n", languages=['en'])
+        translation.install()
+        self.jinja2_env.install_gettext_translations(translation)
+        f = codecs.open(out_html+"en.html", "w", encoding=self.encoding)
+        f.write(template.render({ "standalone" : self.standalone}))
+        
+        translation = gettext.translation("messages", ".\i18n", languages=['de'])
+        translation.install()
+        self.jinja2_env.install_gettext_translations(translation)
+        f = codecs.open(out_html+"de.html", "w", encoding=self.encoding)
+        f.write(template.render({ "standalone" : self.standalone}))
+        
         f.close()
 
 
 # command line interface
 if __name__ == "__main__":
     generator = GeneratorStandaloneHTML()
-    generator.start("template.html","index.html")
+    generator.start("template.html","index_")

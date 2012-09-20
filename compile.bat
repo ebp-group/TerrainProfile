@@ -1,0 +1,1 @@
+C:\Python27\Scripts\pybabel-script.py compile -d i18n\

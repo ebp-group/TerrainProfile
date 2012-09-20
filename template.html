@@ -14,9 +14,11 @@
 <head>
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
-<title>Höhenprofile auf Basis von Google Maps, entwickelt von Ernst Basler + Partner AG</title>
+<title>{{ gettext("Höhenprofile auf Basis von Google Maps, entwickelt von Ernst Basler + Partner AG")}}</title>
 <script type="text/javascript" src="http://www.google.com/jsapi"></script>
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+{{ 'i18next-1.5.6.min.js' | include_js }}
+{{ 'lang.js' | include_js }}
 {{ 'URI.js'|include_js }}
 {{ 'tp.js'|include_js }}
 {{ 'tp.css'|include_css }}
@@ -33,43 +35,58 @@
 </script>
 </head>
 <body>
-  <h2 style="text-align:center;font-size:25px">Automatische Höhenprofilberechnung Version 2.0 (beta)&nbsp; &nbsp; &nbsp;<a href="http://www.ebp.ch"><img style=" border-style:none;" src="{{ 'EBP.png'|imgsrc }}"/></a></h2>
-  <div style="font-size:small;"><b>Anleitung:</b> Klicken Sie auf den Knopf "Neu starten". Sie können eine Route erstellen, in dem Sie auf die Karte klicken oder eine Adresse der Knotenpunkte eingibst. Das Höhenprofil wird automatisch aktualisiert. Tip: Sie können die Knotenpunkte auch verschieben. Weitere Infos finden Sie in unserem <a href="http://geo.ebp.ch/2010/09/15/gelandeprofile-berechnen-mit-google-maps">Blog</a>.</div>
+    <a href="index_de.html">de</a>  <a href="index_fr.html">fr</a>  <a href="index_en.html">en</a>
+  <h2 style="text-align:center;font-size:25px">{{gettext("Automatische Höhenprofilberechnung Version 2.0 (beta)")}}&nbsp; &nbsp; &nbsp;<a href="http://www.ebp.ch">
+	<img style=" border-style:none;" src="{{ 'EBP.png'|imgsrc }}"/></a>
+  </h2>
+  <div style="font-size:small;">
+	<b>{{ gettext("Anleitung:")}}</b> 
+	{{ gettext("Klicken Sie auf den Knopf \"Neu starten\". Sie können eine Route erstellen, in dem Sie auf die Karte klicken oder eine Adresse der Knotenpunkte eingibst. ")}}
+	{{ gettext("Das Höhenprofil wird automatisch aktualisiert. ")}}
+	{{ gettext("Tip: Sie können die Knotenpunkte auch verschieben.")}} 
+	{{ gettext("Weitere Infos finden Sie in unserem ")}}
+	<a href="http://geo.ebp.ch/2010/09/15/gelandeprofile-berechnen-mit-google-maps">Blog</a>.
+  </div>
   <div style="background-color: #C3D9FF; width:100%; margin-top:10px;">
   <table>
   <tr>
      <td style="text-align: left">
-       <input type="button" value="Neu starten (alle Knotenpunkte löschen)" onclick="tp.reset()"/>
+       <input type="button" value="{{gettext("Neu starten (alle Knotenpunkte löschen)")}}" onclick="tp.reset()"/>
      </td>
-	<td style="text-align: center">Adresse des nächsten Knotenpunktes: <input type="text" id="address" size="35" onkeypress="return tp.addressKeyHandler(event)"/></td>
+	<td style="text-align: center">{{ gettext("Adresse des nächsten Knotenpunktes:")}} <input type="text" id="address" size="35" onkeypress="return tp.addressKeyHandler(event)"/></td>
 	<td style="text-align: right">
-       Art der Route:
+       {{ gettext("Art der Route:")}}
        <select id="mode" onchange="tp.updateElevation()">
-		 
-         <option value="direct">Luftlinie</option>
-         <option value="driving">Autoroute</option>
-         <option value="bicycling">Velo</option> 
-         <option value="walking">Fussweg</option>
+	     <option value="direct">{{ gettext("Luftlinie")}}</option>
+         <option value="driving">{{ gettext("Autoroute")}}</option>
+         <option value="bicycling">{{ gettext("Velo")}}</option> 
+         <option value="walking">{{ gettext("Fussweg")}}</option>
        </select>
      </td>
      <td id="permalink"> 
-       <a href="javascript:tp.createPermalink();">Erstelle Permalink</a>
+       <a href="javascript:tp.createPermalink();">{{ gettext("Erstelle Permalink")}}</a>
      </td>
   </tr>
   </table>
   </div>
   <div id="loading" style="display:none;text-align:center;background-color:lightcoral; width:100%; border-top:10px;">
-    Einen Moment, bitte. Die Ergebnisse werden geladen.
+    {{ gettext("Einen Moment, bitte. Die Ergebnisse werden geladen.")}}
   </div>
   <div id="map_canvas" style="border: 4px solid #C3D9FF; width:99%; height:500px"></div>
   <div style="border: 4px solid #C3D9FF;width:99%; ">
     <div id="export_div">
-     <a id="export_link" href="#" target="_blank" >Export als CSV text (öffnet ein neues Fenster). <span style="font-size:11px;">funktioniert momentan nicht im Internet Explorer</span></a>
+     <a id="export_link" href="#" target="_blank" >{{ gettext("Export als CSV text (öffnet ein neues Fenster).")}} <span style="font-size:11px;">{{ gettext("funktioniert momentan nicht im Internet Explorer") }}</span></a>
     </div>
     <div id="chart_div" style="width:98%; height:300px" onmouseout="tp.clearMouseMarker()">
     </div>
   </div>
-  <div id="Hinweise" style="margin-top:10px;font-size:11px;">Diese Website beruht auf einen <a href="http://gmaps-samples-v3.googlecode.com/svn/trunk/elevation/elevation-profile.html">Google Developer Sample</a> und wurde von <a href="http://www.ebp.ch">Ernst Basler + Partner AG</a> angepasst. Die Daten stammen ausschliesslich von Google und liegen unter Ihrem Copyright. Diese HTML-Datei kann abgespeichert werden und lokal genutzt und verändert werden (siehe Hinweise zur Lizenz im Quellcode). Fragen beantworten wir gerne per <a href="mailto:stephan.heuel@ebp.ch">E-Mail</a>.
+  <div id="Hinweise" style="margin-top:10px;font-size:11px;">
+	{{ gettext("Diese Website beruht auf einen")}} 
+	<a href="http://gmaps-samples-v3.googlecode.com/svn/trunk/elevation/elevation-profile.html">{{gettext("Google Developer Sample")}}</a>
+	{{gettext("und wurde von <a href=\"http://www.ebp.ch\">Ernst Basler + Partner AG</a> angepasst.")}}
+	{{ gettext("Die Daten stammen ausschliesslich von Google und liegen unter Ihrem Copyright. ")}}
+	{{gettext("Diese HTML-Datei kann abgespeichert werden und lokal genutzt und verändert werden (siehe Hinweise zur Lizenz im Quellcode). ")}}
+	{{gettext("Fragen beantworten wir gerne per")}} <a href="mailto:stephan.heuel@ebp.ch">E-Mail</a>.
   </div>
 </body>
 </html>
