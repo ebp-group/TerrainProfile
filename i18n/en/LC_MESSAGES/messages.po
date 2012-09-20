@@ -30,7 +30,7 @@ msgstr "Automatic height profile calculation Version 2.0 (beta)"
 
 #: template.html:40
 msgid "Anleitung:"
-msgstr Instructions:""
+msgstr "Instructions:"
 
 #: template.html:41
 msgid ""
