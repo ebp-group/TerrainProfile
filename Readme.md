@@ -10,6 +10,7 @@ Features
 * Create a terrain profile within seconds
 * Use it with routing (car, pedestrian, bike (where available))
 * One standalone HTML page
+* Available in German, French and English
 * [...] 
 
 Installation
@@ -17,14 +18,11 @@ Installation
 
 * Install Python and `jinja2` 
 * Run `generate.py`, 
-* The resulting index.html can be used on the filesystem or copied to your webserver
+* The resulting index_de.html, index_fr.html or index_en.html can be used on the filesystem or copied to your webserver
 
 Todos
 =====
 
-* translation (i18n with jinja2)
-* make everything work in IE
-* consistent marker labels (everywhere green markers from 1..10)
 * maybe: refactor with jquery
 * UI: delete individual markers
 
