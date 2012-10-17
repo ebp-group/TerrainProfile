@@ -1,18 +1,17 @@
-# English translations for PROJECT.
-# Copyright (C) 2012 ORGANIZATION
-# This file is distributed under the same license as the PROJECT project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2012.
+# English translations for Geländeprofile.
+# Copyright (C) 2012 Ernst Basler + Partner AG
+# This file is distributed under the same license as the Geländeprofile project.
+# HEUEL Stephan <stephan.heuel@ebp.ch>, 2012.
 #
 
 msgid ""
 msgstr ""
-"Project-Id-Version: PROJECT VERSION\n"
+"Project-Id-Version: 1\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2012-09-19 15:56+0200\n"
-"PO-Revision-Date: 2012-09-19 15:57+0200\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: en <LL@li.org>\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Radhouane Hedi <EMAIL@ADDRESS>\n"
+"Language-Team: German <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -22,7 +21,9 @@ msgstr ""
 msgid ""
 "Höhenprofile auf Basis von Google Maps, entwickelt von Ernst Basler + "
 "Partner AG"
-msgstr "Height profile based on Google maps, a creation from Ernst Basler + Partner AG"
+msgstr ""
+"Height profile based on Google maps, a creation from Ernst Basler + "
+"Partner AG"
 
 #: template.html:36
 msgid "Automatische Höhenprofilberechnung Version 2.0 (beta)"
@@ -37,7 +38,9 @@ msgid ""
 "Klicken Sie auf den Knopf \"Neu starten\". Sie können eine Route "
 "erstellen, in dem Sie auf die Karte klicken oder eine Adresse der "
 "Knotenpunkte eingibst. "
-msgstr "Click on the "Restart" button. A new route can be created by clicking on the map or by entering an address"
+msgstr ""
+"Click on the \"Restart\" button. A new route can be created by clicking "
+"on the map or by entering an address"
 
 #: template.html:42
 msgid "Das Höhenprofil wird automatisch aktualisiert. "
@@ -107,7 +110,9 @@ msgstr "Google Developer Sample"
 msgid ""
 "und wurde von <a href=\"http://www.ebp.ch\">Ernst Basler + Partner AG</a>"
 " angepasst."
-msgstr "and has been modified by <a href=\"http://www.ebp.ch\">Ernst Basler + Partner AG</a>"
+msgstr ""
+"and has been modified by <a href=\"http://www.ebp.ch\">Ernst Basler + "
+"Partner AG</a>"
 
 #: template.html:84
 msgid ""
@@ -119,7 +124,9 @@ msgstr "The data are provided by Google and are under their copyright."
 msgid ""
 "Diese HTML-Datei kann abgespeichert werden und lokal genutzt und "
 "verändert werden (siehe Hinweise zur Lizenz im Quellcode). "
-msgstr "This HTML-page can be saved locally and can be distributed (please refer to the license in the source code)."
+msgstr ""
+"This HTML-page can be saved locally and can be distributed (please refer "
+"to the license in the source code)."
 
 #: template.html:86
 msgid "Fragen beantworten wir gerne per"

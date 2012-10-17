@@ -51,23 +51,15 @@ class GeneratorStandaloneHTML(object):
     def start(self,in_template, out_html):
         template = self.jinja2_env.get_template(in_template)
         gettext.install('messages', '.\i18n')
-        translation = gettext.translation("messages", ".\i18n", languages=['fr'])
-        translation.install()
-        self.jinja2_env.install_gettext_translations(translation)
-        f = codecs.open(out_html+"fr.html", "w", encoding=self.encoding)
-        f.write(template.render({ "standalone" : self.standalone}))
         
-        translation = gettext.translation("messages", ".\i18n", languages=['en'])
-        translation.install()
-        self.jinja2_env.install_gettext_translations(translation)
-        f = codecs.open(out_html+"en.html", "w", encoding=self.encoding)
-        f.write(template.render({ "standalone" : self.standalone}))
-        
-        translation = gettext.translation("messages", ".\i18n", languages=['de'])
-        translation.install()
-        self.jinja2_env.install_gettext_translations(translation)
-        f = codecs.open(out_html+"de.html", "w", encoding=self.encoding)
-        f.write(template.render({ "standalone" : self.standalone}))
+        for name in os.listdir("i18n/"):
+            if(os.path.isdir("i18n/"+name)):
+                translation = gettext.translation("messages", ".\i18n", languages=[name])
+                translation.install()
+                self.jinja2_env.install_gettext_translations(translation)
+                f = codecs.open(out_html+name+".html", "w", encoding=self.encoding)
+                f.write(template.render({ "standalone" : self.standalone}))
+                print "generated the langage with code " + name
         
         f.close()
 
